@@ -26,6 +26,6 @@ public class FetchMailJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Executing a new fetch Mail job");
-//        mailService.searchForPendingMails();
+        mailService.searchForPendingMails();
     }
 }

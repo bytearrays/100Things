@@ -24,12 +24,13 @@
                                 $('#nocontent').hide();
                                 $('#fullcontent').show();
                                 $('#title').html(data.title);
-                                if (data.description) {
+                                if (data.status=="DELIVERED") {
                                     $("#description").css("text-align", "left");
                                     $("#dynamic").remove();
                                     $('#description').html(data.description);
                                 }
                                 else {
+                                    $('#title').html(data.description);
                                     $("#description").css("text-align", "center");
                                     $("#description").empty();
                                     var img = $('<img id="dynamic">');
@@ -104,5 +105,3 @@
     </script>
 
 </div>
-
-

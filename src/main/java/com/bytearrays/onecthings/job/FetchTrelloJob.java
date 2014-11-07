@@ -24,6 +24,6 @@ public class FetchTrelloJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Executing a new fetch Trello job");
-//        trelloService.searchForFreshCards();
+        trelloService.searchForFreshCards();
     }
 }

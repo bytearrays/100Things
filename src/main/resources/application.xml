@@ -96,12 +96,13 @@
 
     <bean id="cronTriggerFetchTrelloJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="FetchTrelloJob"/>
-        <property name="cronExpression" value="0 0/1 * * * ?"/>
+        <!--<property name="cronExpression" value="0 0/1 * * * ?"/>-->
+        <property name="cronExpression" value="0 0 13 * * ?"/>
     </bean>
 
     <bean id="cronTriggerFetchMailJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="FetchMailJob"/>
-        <property name="cronExpression" value="0 0/1 * * * ?"/>
+        <property name="cronExpression" value="0 0/5 * * * ?"/>
     </bean>
 
 

@@ -76,14 +76,18 @@ public class MailUtil {
             // performs search through the folder
             Message[] foundMessages = folderInbox.search(st);
 
-            if (foundMessages.length<=0){
+            if (foundMessages.length <= 0) {
                 return null;
             }
 
             Message message = foundMessages[foundMessages.length - 1];
-            if (!message.isMimeType("multipart/*")) {
-                return null;
-            }
+//            try {
+                if (message == null || !message.isMimeType("multipart/*")) {
+                    return null;
+                }
+//            } catch (Exception e) {
+//                return null;
+//            }
             int numberOfParts = ((MimeMultipart) message.getContent()).getCount();
             String actualMessage = getText(((MimeMultipart) message.getContent()).getBodyPart(numberOfParts - 1));
             Pattern pattern = Pattern.compile("<div dir=\"ltr\">(.*)</div>");
