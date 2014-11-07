@@ -97,7 +97,8 @@
     <bean id="cronTriggerFetchTrelloJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="FetchTrelloJob"/>
         <!--<property name="cronExpression" value="0 0/1 * * * ?"/>-->
-        <property name="cronExpression" value="0 18 19 * * ?"/>
+        <property name="cronExpression" value="0 18 13 * * ?"/>
+        <property name="misfireInstructionName" value="MISFIRE_INSTRUCTION_FIRE_ONCE_NOW"/>
     </bean>
 
     <bean id="cronTriggerFetchMailJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
