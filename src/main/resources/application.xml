@@ -1,21 +1,52 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.2.xsd
 	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
     <context:component-scan base-package="com.bytearrays.onecthings"/>
     <context:annotation-config/>
     <tx:annotation-driven transaction-manager="txManager"/>
 
+
+    <security:http auto-config='true'>
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <security:http-basic/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="diana" password="andreea" authorities="ROLE_USER,ROLE_ADMIN"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <!-- rest container -->
+    <jaxrs:server id="restService" address="/">
+        <jaxrs:serviceBeans>
+            <bean class="com.bytearrays.onecthings.endpoints.DailyThing"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -59,9 +90,17 @@
         <property name="jobClass" value="com.bytearrays.onecthings.job.FetchTrelloJob"/>
     </bean>
 
+    <bean name="FetchMailJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.bytearrays.onecthings.job.FetchMailJob"/>
+    </bean>
+
     <bean id="cronTriggerFetchTrelloJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="FetchTrelloJob"/>
-        <!--<property name="cronExpression" value="0 0/5 * * * ?"/>-->
+        <property name="cronExpression" value="0 0/1 * * * ?"/>
+    </bean>
+
+    <bean id="cronTriggerFetchMailJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="FetchMailJob"/>
         <property name="cronExpression" value="0 0/1 * * * ?"/>
     </bean>
 
@@ -82,11 +121,13 @@
         <property name="jobDetails">
             <list>
                 <ref bean="FetchTrelloJob"/>
+                <ref bean="FetchMailJob"/>
             </list>
         </property>
         <property name="triggers">
             <list>
                 <ref bean="cronTriggerFetchTrelloJob"/>
+                <ref bean="cronTriggerFetchMailJob"/>
             </list>
         </property>
         <property name="quartzProperties">

@@ -18,6 +18,18 @@ public class ApplicationConfigBean {
     @Value("${trello.board.id}")
     String trelloBoardId;
 
+    @Value("${gmail.user}")
+    String gmailUser;
+
+    @Value("${gmail.password}")
+    String gmailPassword;
+
+    @Value("${sender.email}")
+    String senderEmail;
+
+    @Value("${recipient.email}")
+    String recipientEmail;
+
     public String getTrelloToken() {
         return trelloToken;
     }
@@ -29,4 +41,12 @@ public class ApplicationConfigBean {
     public String getTrelloBoardId() {
         return trelloBoardId;
     }
+
+    public String getGmailUser() { return gmailUser; }
+
+    public String getGmailPassword() { return gmailPassword; }
+
+    public String getSenderEmail() { return senderEmail; }
+
+    public String getRecipientEmail() { return recipientEmail; }
 }
