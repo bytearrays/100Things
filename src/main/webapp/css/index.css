@@ -1,0 +1,109 @@
+@import url(http://fonts.googleapis.com/css?family=Satisfy);
+
+.ui-corner-all { border-radius: 0px; -moz-border-radius-bottomright: 0px; -moz-border-radius-bottomleft: 0px; -moz-border-radius-topright: 0px; -moz-border-radius-topleft: 0px;}
+
+.ui-widget-content{ border: 0px;}
+
+
+div.ui-datepicker, .ui-datepicker td{
+ font-size:12px;
+}
+
+/* By removing the float:left; each calendar will stack vertically */
+#calendar-container .ui-datepicker-multi .ui-datepicker-group { float:none; }
+ 
+/* This is 100% by default, which we now set to a specific pixel value so the container looks right */
+#calendar-container .ui-datepicker-inline.ui-datepicker.ui-widget { width:205px; }
+ 
+/* In my case this value was originally 33.3% (100% / 3 calendars). I want each calendar to fill the parent container */
+#calendar-container .ui-datepicker-multi-3 .ui-datepicker-group { width:100%; }
+
+
+
+.line-separator{
+height:1px;
+background:transparent;
+border-bottom:2px dashed darkblue;
+ border-radius: 1px;
+}
+.quote-container {
+  margin-top: 50px;
+  position: relative;
+}
+
+.note {
+  color: #333;
+  position: relative;
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Satisfy;
+  font-size: 22px;
+  box-shadow: 0 10px 10px 2px rgba(0,0,0,0.3);
+}
+
+.note .author {
+  display: block;
+  margin: 40px 0 0 0;
+  text-align: right;
+}
+
+.yellow {
+  background: #eae672;
+  -webkit-transform: rotate(2deg);
+  -moz-transform: rotate(2deg);
+  -o-transform: rotate(2deg);
+  -ms-transform: rotate(2deg);
+  transform: rotate(2deg);
+}
+
+.pin {
+  background-color: #aaa;
+  display: block;
+  height: 32px;
+  width: 2px;
+  position: absolute;
+  left: 50%;
+  top: -16px;
+  z-index: 1;
+}
+
+.pin:after {
+  background-color: #A31;
+  background-image: radial-gradient(25% 25%, circle, hsla(0,0%,100%,.3), hsla(0,0%,0%,.3));
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1),
+              inset 3px 3px 3px hsla(0,0%,100%,.2),
+              inset -3px -3px 3px hsla(0,0%,0%,.2),
+              23px 20px 3px hsla(0,0%,0%,.15);
+  content: '';
+  height: 12px;
+  left: -5px;
+  position: absolute;
+  top: -10px;
+  width: 12px;
+}
+
+.pin:before {
+  background-color: hsla(0,0%,0%,0.1);
+  box-shadow: 0 0 .25em hsla(0,0%,0%,.1);
+  content: '';
+
+  height: 24px;
+  width: 2px;
+  left: 0;
+  position: absolute;
+  top: 8px;
+
+  transform: rotate(57.5deg);
+  -moz-transform: rotate(57.5deg);
+  -webkit-transform: rotate(57.5deg);
+  -o-transform: rotate(57.5deg);
+  -ms-transform: rotate(57.5deg);
+
+  transform-origin: 50% 100%;
+  -moz-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -o-transform-origin: 50% 100%;
+}

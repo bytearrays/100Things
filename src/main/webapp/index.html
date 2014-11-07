@@ -1,0 +1,108 @@
+<head>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link type="text/css" rel="stylesheet"
+          href="http://calendarjs.googlecode.com/svn/tags/1.5/themes/sky-blue/calendar.css"/>
+    <script type="text/javascript" src="http://calendarjs.googlecode.com/svn/tags/1.5/calendar-1.5.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                numberOfMonths: [4, 1],
+                firstDay: 1,
+                dateFormat: 'dd-mm-yy',
+                minDate: new Date(2014, 10, 2),
+                maxDate: new Date(2015, 1, 2),
+                onSelect: function (dateText, inst) {
+                    var jqxhr = $.get("api/ask?date=" + dateText, function () {
+                    })
+                            .done(function (data) {
+                                $('#nocontent').hide();
+                                $('#fullcontent').show();
+                                $('#title').html(data.title);
+                                if (data.description) {
+                                    $("#description").css("text-align", "left");
+                                    $("#dynamic").remove();
+                                    $('#description').html(data.description);
+                                }
+                                else {
+                                    $("#description").css("text-align", "center");
+                                    $("#description").empty();
+                                    var img = $('<img id="dynamic">');
+                                    img.attr('src', "img/question.png");
+                                    img.attr('width', "50%");
+                                    img.attr('height', "50%");
+                                    img.appendTo('#description');
+                                }
+                            })
+                            .fail(function (xhr, ajaxOptions, thrownError) {
+                                switch (xhr.status) {
+                                    case 501:
+                                        $('#fullcontent').hide();
+                                        $('#nocontent').show();
+                                        return;
+                                    default:
+                                        alert('error!')
+                                }
+                            })
+                }
+            });
+
+            $(document).ready(function () {
+                $(".ui-datepicker-current-day").trigger("click");
+            })
+
+        });
+    </script>
+
+</head>
+
+<!--<div style="height:200px"><span id="calendar_1"></span></div>-->
+<div style="width:200px;float:left">
+    <div id="datepicker"></div>
+</div>
+
+
+<div style="float:left;padding-left:150px;" class="quote-container">
+
+    <i class="pin"></i>
+
+    <blockquote class="note yellow">
+        <div style="text-align: center;display: none" id="nocontent">
+            <img width="70%" height="70%" src="img/question.png"/>
+        </div>
+        <div style="display: none;" id="fullcontent">
+            <div id="title"> #4 Care este citatul, moto-ul tau preferat?</div>
+            <br/>
+
+            <div class="line-separator"></div>
+            <br/>
+
+            <div id="description">
+
+            </div>
+            <cite class="author">Diana-Andreea Lungu</cite>
+        </div>
+    </blockquote>
+
+
+    <script type="text/javascript">
+        /* Example 1. Inline calendar */
+        var cal_1 = new Calendar({
+            element: 'calendar_1',
+            inline: true,
+            months: 4,
+            dateFormat: 'm/d/Y',
+            onSelect: function (element, selectedDate, date, cell) {
+                document.getElementById('date_1').innerHTML = selectedDate;
+            }
+        });
+    </script>
+
+</div>
+
+
